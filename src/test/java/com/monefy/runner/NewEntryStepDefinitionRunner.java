@@ -9,5 +9,5 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features/new_entry.feature",
         glue = "com.monefy.stepdefinitions",
         snippets = CucumberOptions.SnippetType.CAMELCASE)
-public class NewEntry {
+public class NewEntryStepDefinitionRunner {
 }

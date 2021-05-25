@@ -3,33 +3,35 @@ package com.monefy.task;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.Click;
-import org.openqa.selenium.interactions.touch.TouchActions;
 
 import java.util.Arrays;
 
-import static com.monefy.components.Index.*;
-import static com.monefy.components.NewEntryComponent.SELECTNUM;
+import static com.monefy.components.Index.BTN_ADD_ENTRY;
+import static com.monefy.components.NewEntryComponent.*;
 import static net.serenitybdd.screenplay.Tasks.instrumented;
 
 public class DepositMoney implements Task {
 
     private int number;
+    private String category;
 
-    public DepositMoney(int number) {
+    public DepositMoney(int number, String category) {
         this.number = number;
+        this.category = category;
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        Click.on(BTN_TUTORIAL);
-        Click.on(BTN_ADD_ENTRY);
+        actor.attemptsTo(Click.on(BTN_ADD_ENTRY));
         Arrays.stream(numberArray(number))
-                .forEach(e -> Click.on(SELECTNUM.of(String.valueOf(e))));
-        Click.on(BTN_SELECT_CATEGORY);
+                        .forEach(e -> actor.attemptsTo(Click.on(SELECTNUM.of(String.valueOf(e)))));
+        actor.attemptsTo(
+                Click.on(BTN_SELECT_CATEGORY),
+        Click.on(SELECT_CATEGORY.of(category)));
     }
 
-    public static DepositMoney newEntry(int number) {
-        return instrumented(DepositMoney.class, number);
+    public static DepositMoney newEntry(int number, String category) {
+        return instrumented(DepositMoney.class, number, category);
     }
 
     private int[] numberArray(int num) {
